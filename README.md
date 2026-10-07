@@ -4,6 +4,8 @@ A personal portfolio site built with **Angular** and **TypeScript**. It started 
 
 **Live site:** angularapp-with-github-and-youtube-api.vercel.app
 
+<img width="1437" height="812" alt="screenshot" src="https://github.com/user-attachments/assets/bdf60dce-5d13-4985-835e-6869faf846f0" />
+
 ## Features
 
 - **Responsive layout** with a slide-out sidebar and a right-hand panel
