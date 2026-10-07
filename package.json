@@ -1,12 +1,13 @@
 {
   "name": "angularapp",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
+    "config": "node set-env.mjs",
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "start": "npm run config && ng serve",
+    "build": "npm run config && ng build",
+    "watch": "npm run config && ng build --watch --configuration development",
+    "test": "npm run config && ng test",
     "serve:ssr:angularapp": "node dist/angularapp/server/server.mjs"
   },
   "private": true,
@@ -26,11 +27,12 @@
   },
   "devDependencies": {
     "@angular/build": "^21.2.24",
-    "@angular/cli": "^21.2.24",
+    "@angular/cli": "^20.0.6",
     "@angular/compiler-cli": "^21.2.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "dotenv": "^18.0.6",
     "jsdom": "^28.0.0",
     "postcss": "^8.5.3",
     "prettier": "^3.8.1",

@@ -1,0 +1,131 @@
+<section class="hero" #hero aria-label="Introduction">                
+    <div class="hero-copy">                                    
+        <p class="hero-eyebrow">// Available for new projects this quarter</p>
+        <h1>Hi, I'm Asad. I like building products that feel as good as they work.</h1>
+        <p>I enjoy working across different areas of technology and finding practical solutions to technical challenges.</p>
+    </div>
+
+    <div class="carousel" id="carousel" role="group" aria-roledescription="carousel" aria-label="Recent website work" 
+        (mouseenter)="stop()" (mouseleave)="start()"
+        (focusin)="stop()" (focusout)="start()"
+        (keydown)="onCarouselKey($event)"
+        >
+        <div class="carousel-viewport">
+            <div class="carousel-track" id="carouselTrack" #track
+                (pointerdown)="onTrackPointerDown($event)"
+                (pointerup)="onTrackPointerUp($event)"
+                (pointercancel)="touchX = null"
+            >
+                <figure class="slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
+                    <img src="./assets/images/carousel/website1.png" width="750" height="389" alt="Violet website: a dark page headed &ldquo;I build for the web and keep one eye on the sky.&rdquo;">
+                    <figcaption>Cybersecurity, cloud and AI projects, plus a small shop</figcaption>
+                </figure>
+                <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 3">
+                    <img src="./assets/images/carousel/website2.png" width="750" height="386" alt="A website: a light page with a storefront, a portfolio and an about section">
+                    <figcaption>A website: a storefront, a portfolio and the person behind them</figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="carousel-controls">
+            <button type="button" class="carousel-btn" id="carouselPrev" aria-label="Previous slide" (click)="goTo(current - 1)">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="carousel-dots" id="carouselDots">
+                @for (n of dots; track n) {
+                <button type="button" class="carousel-dot"
+                        [attr.aria-label]="'Go to slide ' + (n + 1)"
+                        [attr.aria-current]="n === current ? 'true' : null"
+                        (click)="goTo(n)"></button>
+                }
+            </div>
+            <button type="button" class="carousel-btn" id="carouselNext" aria-label="Next slide" (click)="goTo(current + 1)">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="carousel-toggle" id="carouselToggle" [attr.aria-label]="userPaused ? 'Start automatic slide changes' : 'Pause automatic slide changes'"
+    (click)="toggleAuto()">{{ userPaused ? 'Play' : 'Pause' }}</button>
+        </div>
+    </div>
+</section>
+
+<section class="work" aria-labelledby="work-title">
+    <div class="work-head">
+        <h2 class="section-title" id="work-title">Work</h2>
+        <p class="work-meta">6 projects</p>
+    </div>
+    <div class="work-body">
+        <div class="scroller" id="scroller" #scroller (scroll)="layoutIndicator()" tabindex="0" role="region" aria-labelledby="work-title">
+            <div class="bento">
+            <article class="box box--xl box--white">
+                <div>
+                    <h3>Habit tracker</h3>
+                    <p>A small React + IndexedDB app for tracking daily habits, fully offline.</p>
+                    <a class="visit" href="https://github.com/optimuswave386/habit-tracker">View on GitHub</a>
+                </div>
+                <ul class="stack" aria-label="Built with"><li>React</li><li>IndexedDB</li></ul>
+            </article>
+            <article class="box box--ink">
+                <div>
+                    <h3>Markdown blog engine</h3>
+                    <p>A static site generator that turns a folder of Markdown files into a blog.</p>
+                </div>
+                <ul class="stack" aria-label="Built with"><li>Node.js</li><li>Markdown</li></ul>
+            </article>
+            <article class="box box--glass">
+                <div>
+                    <h3>Weather CLI</h3>
+                    <p>A terminal weather lookup tool with caching and colored output.</p>
+                </div>
+                <ul class="stack" aria-label="Built with"><li>Python</li><li>CLI</li></ul>
+            </article>
+            <article class="box box--sq box--mint">
+                <div>
+                    <h3>Recipe finder</h3>
+                    <p>Search recipes by ingredients you already have in the fridge.</p>
+                </div>
+                <ul class="stack" aria-label="Built with"><li>Next.js</li><li>GraphQL</li></ul>
+            </article>
+            <article class="box box--glass">
+                <div>
+                    <h3>Pixel art editor</h3>
+                    <p>A canvas-based sprite editor with layers and an export-to-PNG option.</p>
+                </div>
+                <ul class="stack" aria-label="Built with"><li>Canvas</li><li>TypeScript</li></ul>
+            </article>
+            <article class="box box--white">
+                <div>
+                    <h3>Link shortener</h3>
+                    <p>A tiny URL shortener with click analytics, self-hosted on a Raspberry Pi.</p>
+                </div>
+                <ul class="stack" aria-label="Built with"><li>Node.js</li><li>SQLite</li></ul>
+            </article>
+            <!-- Feed boxes below hold sample entries: connect the GitHub and YouTube APIs to pull them in live. -->
+            <!-- <article class="box box--ink">
+                <h3>Latest on GitHub</h3>
+                <ul class="feed">
+                    <li><a href="https://github.com/optimuswave386/habit-tracker">habit-tracker</a><span>Pushed 2 days ago</span></li>
+                    <li><a href="https://github.com/optimuswave386/markdown-blog-engine">markdown-blog-engine</a><span>Tagged v1.2</span></li>
+                    <li><a href="https://github.com/optimuswave386/weather-cli">weather-cli</a><span>Opened issue #14</span></li>
+                </ul>
+            </article>
+            <article class="box box--glass">
+                <h3>Latest on YouTube</h3>
+                <ul class="feed">
+                    <li><a href="https://www.youtube.com/@Asad-b8c2i">Setting up CI/CD from scratch</a><span>12 min</span></li>
+                    <li><a href="https://www.youtube.com/@Asad-b8c2i">Notes on ethical hacking basics</a><span>8 min</span></li>
+                </ul>
+            </article> -->
+            </div>
+        </div>
+        <div class="indicator" id="indicator" #indicator aria-hidden="true" (pointerdown)="onTrackDown($event)">
+            <div class="thumb" id="thumb" #thumb
+            (pointerdown)="onThumbDown($event)"
+            (pointermove)="onThumbMove($event)"
+            (pointerup)="onThumbUp()"></div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>Have a project in mind? <a href="mailto:asadali_1@myyahoo.com">Get in touch</a>.</p>
+    <p class="legal">&copy; 2001&ndash;2026. All rights reserved.</p>
+</footer>

@@ -1,59 +1,132 @@
-# Angularapp
+# Asad Ali — Portfolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.24.
+A personal portfolio site built with **Angular** and **TypeScript**. It started as a static HTML/CSS/JavaScript site and was ported to Angular, with the original scripts rewritten as typed components and services.
 
-## Development server
+**Live site:** angularapp-with-github-and-youtube-api.vercel.app
 
-To start a local development server, run:
+## Features
+
+- **Responsive layout** with a slide-out sidebar and a right-hand panel
+- **Hero section** with a random accent color on each page load
+- **Image carousel** with auto-advance, pause/play, dots, keyboard arrows, and touch swipe
+- **Work section** with a custom scroll indicator
+- **Client-side search** with a `/search?q=...` results page and relevance scoring
+- **Latest GitHub activity** pulled from the GitHub REST API
+- **Latest YouTube videos** pulled from the YouTube Data API v3
+- **Accessible markup:** ARIA labels, keyboard support, and reduced-motion handling for the carousel
+
+## Tech stack
+
+- [Angular](https://angular.dev) (standalone components, router, `HttpClient`)
+- TypeScript
+- RxJS (`shareReplay`, `switchMap`, `catchError`) for API data and state
+- Plain CSS (`src/styles.css`)
+- Deployed on [Vercel](https://vercel.com)
+
+## Getting started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) 20 or newer
+- Angular CLI: `npm install -g @angular/cli`
+
+### Install and run
 
 ```bash
+git clone https://github.com/optimuswave386/angularapp-with-github-and-youtube-api.git
+cd angularapp-with-github-and-youtube-api
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open <http://localhost:4200>. The app reloads when you edit a file.
 
-## Code scaffolding
+## Configuration
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Environment files
 
-```bash
-ng generate component component-name
+The YouTube section needs an API key. Create (or edit) `src/environments/environment.ts` and `src/environments/environment.development.ts`:
+
+```ts
+export const environment = {
+  youtubeApiKey: 'YOUR_RESTRICTED_API_KEY',
+  youtubeHandle: '@your-channel-handle',
+};
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+If the `environments` folder doesn't exist, generate it with `ng generate environments`.
 
-```bash
-ng generate --help
+> **Note:** anything in an Angular bundle is public. Use a key restricted to the **YouTube Data API v3** and to your own sites (HTTP referrers, including `http://localhost:4200/*` and your production domain). Never put a real secret, such as a private token, in these files.
+
+### Getting a YouTube API key
+
+1. Create a project in the [Google Cloud Console](https://console.cloud.google.com).
+2. Enable **YouTube Data API v3**.
+3. Create an API key under **Credentials**.
+4. Restrict the key by **HTTP referrer** and by **API** (YouTube Data API v3 only).
+
+### GitHub activity
+
+`src/app/github.service.ts` reads public events for the username set in that file. Change the `username` value to use a different account. No token is needed for public activity (the unauthenticated limit is 60 requests per hour per IP).
+
+### Search content
+
+Searchable items live in the `items` array in `src/app/search.service.ts`. Add an entry (title, description, url, tags) for each project or page you want to be searchable.
+
+## Project structure
+
+```text
+src/
+├── app/
+│   ├── app.component.*            # Shell: header, sidebar, panel, carousel, router outlet
+│   ├── app.routes.ts              # Routes: / and /search
+│   ├── home/                      # Home page: hero and Work section
+│   ├── search/                    # Search results page
+│   ├── search.service.ts          # Client-side search index and scoring
+│   ├── github.service.ts          # GitHub activity (REST API)
+│   ├── github-activity.component.ts
+│   ├── youtube.service.ts         # Latest videos (YouTube Data API)
+│   └── youtube-videos.component.ts
+├── assets/                        # Images and icons
+├── environments/                  # API key and channel handle
+└── styles.css                     # Global styles
 ```
 
-## Building
+## Scripts
 
-To build the project run:
+| Command | What it does |
+| --- | --- |
+| `ng serve` | Start the dev server at `localhost:4200` |
+| `ng build` | Production build into `dist/` |
+| `ng test` | Run unit tests |
 
-```bash
-ng build
-```
+## Deployment (Vercel)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The site is deployed as a static single-page app.
 
-## Running unit tests
+1. Push the repository to GitHub.
+2. In Vercel, choose **Add New → Project** and import the repo (the Angular preset is detected automatically).
+3. Use `npm run build` as the build command. The output directory is the folder containing `index.html` (normally `dist/<project-name>/browser`).
+4. Keep `vercel.json` in the project root so page refreshes on routes like `/search` work:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+   ```json
+   {
+     "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+   }
+   ```
 
-```bash
-ng test
-```
+5. Add your production URL (for example `https://your-project.vercel.app/*`) to the YouTube API key's allowed referrers.
 
-## Running end-to-end tests
+Server-side rendering is turned off for this deployment.
 
-For end-to-end (e2e) testing, run:
+## Roadmap
 
-```bash
-ng e2e
-```
+- Replace the static search index with a larger one (or a library such as Fuse.js)
+- Add unit tests for `SearchService`
+- Add the account/profile menu from the original search page
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Connect
 
-## Additional Resources
+- GitHub: <https://github.com/optimuswave386>
+- YouTube: <https://www.youtube.com/@Asad-b8c2i>
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
