@@ -2,7 +2,7 @@
 
 A personal portfolio site built with **Angular** and **TypeScript**. It started as a static HTML/CSS/JavaScript site and was ported to Angular, with the original scripts rewritten as typed components and services.
 
-**Live site:** angularapp-with-github-and-youtube-api.vercel.app
+**Live site:** [angularapp-with-github-and-youtube-api.vercel.app](https://angularapp-with-github-and-youtube-drab.vercel.app/)
 
 <img width="1437" height="812" alt="screenshot" src="https://github.com/user-attachments/assets/bdf60dce-5d13-4985-835e-6869faf846f0" />
 
