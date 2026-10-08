@@ -1,4 +1,5 @@
 export const environment = {
     youtubeApiKey: '',
-    youtubeHandle: ''
+    youtubeHandle: '',
+    apiUrl: ''
 };

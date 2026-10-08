@@ -4,6 +4,7 @@
    const content = `export const environment = {
      youtubeApiKey: '${process.env.YOUTUBE_API_KEY ?? ''}',
      youtubeHandle: '${process.env.YOUTUBE_HANDLE ?? ''}',
+     apiUrl: '${process.env.API_URL ?? ''}',
    };
    `;
 

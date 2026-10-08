@@ -3,10 +3,12 @@ import {
   PLATFORM_ID, ViewChild, inject,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Projects } from '../projects/projects';
+import { Notes } from '../notes/notes';
 
 @Component({
   selector: 'app-home',
-  //imports: [],
+  imports: [Projects, Notes],
   standalone: true,
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -16,11 +18,7 @@ export class Home implements AfterViewInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
 
   @ViewChild('hero') hero?: ElementRef<HTMLElement>;
-  @ViewChild('scroller') scroller?: ElementRef<HTMLElement>;
-  @ViewChild('indicator') indicator?: ElementRef<HTMLElement>;
-  @ViewChild('thumb') thumb?: ElementRef<HTMLElement>;
   @ViewChild('track') track?: ElementRef<HTMLElement>;
-
 
     // ---------- Hero carousel ----------
   dots: number[] = [];
@@ -83,64 +81,6 @@ export class Home implements AfterViewInit, OnDestroy {
     if (Math.abs(dx) > 40) this.goTo(this.current + (dx < 0 ? 1 : -1));
   }
 
-
-  // paste: resizeObserver, dragging, dragStartY, dragStartTop,
-  //        layoutIndicator, onThumbDown, onThumbMove, onThumbUp,
-  //        onTrackDown, randomizeHero  (unchanged)
-
-  // ---------- Work section: scroll indicator ----------
-  private resizeObserver?: ResizeObserver;
-  private dragging = false;
-  private dragStartY = 0;
-  private dragStartTop = 0;
-
-  layoutIndicator(): void {
-    const sc = this.scroller?.nativeElement;
-    const ind = this.indicator?.nativeElement;
-    const thumb = this.thumb?.nativeElement;
-    if (!sc || !ind || !thumb) return;
-
-    const ch = sc.clientHeight, sh = sc.scrollHeight;
-    if (sh <= ch + 1) { ind.hidden = true; return; }
-    ind.hidden = false;
-    const trackH = ind.clientHeight;
-    const h = Math.max(36, (trackH * ch) / sh);
-    const y = (sc.scrollTop / (sh - ch)) * (trackH - h);
-    thumb.style.height = `${h}px`;
-    thumb.style.transform = `translateY(${y}px)`;
-  }
-
-  onThumbDown(e: PointerEvent): void {
-    e.stopPropagation();
-    this.dragging = true;
-    this.dragStartY = e.clientY;
-    this.dragStartTop = this.scroller!.nativeElement.scrollTop;
-    this.thumb!.nativeElement.setPointerCapture(e.pointerId);
-  }
-
-  onThumbMove(e: PointerEvent): void {
-    if (!this.dragging) return;
-    const sc = this.scroller!.nativeElement;
-    const travel = this.indicator!.nativeElement.clientHeight - this.thumb!.nativeElement.offsetHeight;
-    const ratio = (sc.scrollHeight - sc.clientHeight) / travel;
-    sc.scrollTop = this.dragStartTop + (e.clientY - this.dragStartY) * ratio;
-  }
-
-  onThumbUp(): void {
-    this.dragging = false;
-  }
-
-  onTrackDown(e: PointerEvent): void {
-    const thumb = this.thumb!.nativeElement;
-    if (e.target === thumb) return;
-    const sc = this.scroller!.nativeElement;
-    const ind = this.indicator!.nativeElement;
-    const rect = ind.getBoundingClientRect();
-    const travel = ind.clientHeight - thumb.offsetHeight;
-    const pos = Math.min(Math.max(e.clientY - rect.top - thumb.offsetHeight / 2, 0), travel);
-    sc.scrollTo({ top: (pos / travel) * (sc.scrollHeight - sc.clientHeight), behavior: 'smooth' });
-  }
-
   // ---------- Hero colour: different on each page load ----------
   private randomizeHero(): void {
     const colors = ['#2438e8', '#6a2ee8', '#0a6560', '#b0175a', '#a31d2d', '#4b3fd1', '#9a3412'];
@@ -152,25 +92,14 @@ export class Home implements AfterViewInit, OnDestroy {
     try { sessionStorage.setItem('heroColor', pick); } catch {}
   }
 
-  @HostListener('window:resize')
-  onResize(): void {
-    if (this.isBrowser) this.layoutIndicator();
-  }
-
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     this.randomizeHero();
-    this.layoutIndicator();
-    if (this.scroller && 'ResizeObserver' in window) {
-      this.resizeObserver = new ResizeObserver(() => this.layoutIndicator());
-      this.resizeObserver.observe(this.scroller.nativeElement);
-    }
     this.userPaused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.initCarousel();
   }
 
   ngOnDestroy(): void {
-    this.resizeObserver?.disconnect();
     this.stop();
   }
 

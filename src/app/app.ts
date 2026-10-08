@@ -8,10 +8,11 @@ import { filter } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { GithubActivity } from './github-activity';
 import { YoutubeVideos } from './youtube-videos';
+import { Footer } from './footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, GithubActivity, YoutubeVideos],
+  imports: [RouterOutlet, GithubActivity, YoutubeVideos, Footer],
   standalone: true,
   templateUrl: './app.html',
   styleUrl: './app.css'

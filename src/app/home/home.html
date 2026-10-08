@@ -1,3 +1,9 @@
+<!-- 
+    - Single page application with a few sections, including a hero section, a carousel of recent work, and a projects section. The hero section introduces the individual and their interests. 
+    - The carousel showcases recent website work with images and captions. 
+    - The projects section is included at the end of the home page. 
+-->
+
 <section class="hero" #hero aria-label="Introduction">                
     <div class="hero-copy">                                    
         <p class="hero-eyebrow">// Available for new projects this quarter</p>
@@ -47,85 +53,15 @@
     </div>
 </section>
 
-<section class="work" aria-labelledby="work-title">
-    <div class="work-head">
-        <h2 class="section-title" id="work-title">Work</h2>
-        <p class="work-meta">6 projects</p>
-    </div>
-    <div class="work-body">
-        <div class="scroller" id="scroller" #scroller (scroll)="layoutIndicator()" tabindex="0" role="region" aria-labelledby="work-title">
-            <div class="bento">
-            <article class="box box--xl box--white">
-                <div>
-                    <h3>Habit tracker</h3>
-                    <p>A small React + IndexedDB app for tracking daily habits, fully offline.</p>
-                    <a class="visit" href="https://github.com/optimuswave386/habit-tracker">View on GitHub</a>
-                </div>
-                <ul class="stack" aria-label="Built with"><li>React</li><li>IndexedDB</li></ul>
-            </article>
-            <article class="box box--ink">
-                <div>
-                    <h3>Markdown blog engine</h3>
-                    <p>A static site generator that turns a folder of Markdown files into a blog.</p>
-                </div>
-                <ul class="stack" aria-label="Built with"><li>Node.js</li><li>Markdown</li></ul>
-            </article>
-            <article class="box box--glass">
-                <div>
-                    <h3>Weather CLI</h3>
-                    <p>A terminal weather lookup tool with caching and colored output.</p>
-                </div>
-                <ul class="stack" aria-label="Built with"><li>Python</li><li>CLI</li></ul>
-            </article>
-            <article class="box box--sq box--mint">
-                <div>
-                    <h3>Recipe finder</h3>
-                    <p>Search recipes by ingredients you already have in the fridge.</p>
-                </div>
-                <ul class="stack" aria-label="Built with"><li>Next.js</li><li>GraphQL</li></ul>
-            </article>
-            <article class="box box--glass">
-                <div>
-                    <h3>Pixel art editor</h3>
-                    <p>A canvas-based sprite editor with layers and an export-to-PNG option.</p>
-                </div>
-                <ul class="stack" aria-label="Built with"><li>Canvas</li><li>TypeScript</li></ul>
-            </article>
-            <article class="box box--white">
-                <div>
-                    <h3>Link shortener</h3>
-                    <p>A tiny URL shortener with click analytics, self-hosted on a Raspberry Pi.</p>
-                </div>
-                <ul class="stack" aria-label="Built with"><li>Node.js</li><li>SQLite</li></ul>
-            </article>
-            <!-- Feed boxes below hold sample entries: connect the GitHub and YouTube APIs to pull them in live. -->
-            <!-- <article class="box box--ink">
-                <h3>Latest on GitHub</h3>
-                <ul class="feed">
-                    <li><a href="https://github.com/optimuswave386/habit-tracker">habit-tracker</a><span>Pushed 2 days ago</span></li>
-                    <li><a href="https://github.com/optimuswave386/markdown-blog-engine">markdown-blog-engine</a><span>Tagged v1.2</span></li>
-                    <li><a href="https://github.com/optimuswave386/weather-cli">weather-cli</a><span>Opened issue #14</span></li>
-                </ul>
-            </article>
-            <article class="box box--glass">
-                <h3>Latest on YouTube</h3>
-                <ul class="feed">
-                    <li><a href="https://www.youtube.com/@Asad-b8c2i">Setting up CI/CD from scratch</a><span>12 min</span></li>
-                    <li><a href="https://www.youtube.com/@Asad-b8c2i">Notes on ethical hacking basics</a><span>8 min</span></li>
-                </ul>
-            </article> -->
-            </div>
-        </div>
-        <div class="indicator" id="indicator" #indicator aria-hidden="true" (pointerdown)="onTrackDown($event)">
-            <div class="thumb" id="thumb" #thumb
-            (pointerdown)="onThumbDown($event)"
-            (pointermove)="onThumbMove($event)"
-            (pointerup)="onThumbUp()"></div>
-        </div>
-    </div>
-</section>
 
-<footer class="footer">
-    <p>Have a project in mind? <a href="mailto:asadali_1@myyahoo.com">Get in touch</a>.</p>
-    <p class="legal">&copy; 2001&ndash;2026. All rights reserved.</p>
-</footer>
+<app-projects />
+
+
+<app-notes />
+
+
+<!-- 
+    - On the main page, footer is after the projects and notes section.
+    - The footer section has a call to action to get in touch, and a copyright notice.
+    - The search page is a separate page with a search input and results list. But uses the same footer as the main page.
+-->

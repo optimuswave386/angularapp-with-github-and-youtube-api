@@ -1,0 +1,77 @@
+<section class="work" aria-labelledby="work-title">
+
+@if (projects$ | async; as projects) {
+
+    <div class="work-head">
+        <h2 class="section-title" id="work-title">Work</h2>
+        <p class="work-meta">
+            @if (projects.length > 0) {
+                <span>{{ projects.length }} projects</span>
+            } @else {
+                <span>No projects yet.</span>
+            }
+        </p>
+    </div>
+
+    <div class="work-body">
+        <div class="scroller" id="scroller" #scroller (scroll)="layoutIndicator()" tabindex="0" role="region" aria-labelledby="work-title">
+             <div class="bento">
+                @for (project of projects; track project._id; let i = $index, first = $first, last = $last) {
+                    @if (!first && !last) { 
+                        <article class="box" [class]="variantFor(i%2)" [attr.aria-label]="'Project: ' + project.title">
+                            <div>
+                                <h3>{{ project.title }}</h3>
+                                <p>{{ project.description }}</p>
+                            </div>
+                            <ul class="stack" aria-label="Built with">
+                                @for (tech of project.stack; track tech) {
+                                    <li>{{ tech }}</li>
+                                }
+                            </ul>
+                        </article>
+                    }
+                    @if (first) { 
+                        <article class="box box--xl box--white">
+                            <div>
+                                <h3>{{ project.title }}</h3>
+                                <p>{{ project.description }}</p>
+                                <a class="visit" href="{{ project.href }}">View on Youtube</a>
+                            </div>
+                            <ul class="stack" aria-label="Built with">
+                                @for (tech of project.stack; track tech) {
+                                    <li>{{ tech }}</li>
+                                }
+                            </ul>
+                        </article>
+                    }
+                    @if (last) { 
+                        <article class="box box--white">
+                            <div>
+                                <h3>{{ project.title }}</h3>
+                                <p>{{ project.description }}</p>
+                            </div>
+                            <ul class="stack" aria-label="Built with">
+                                @for (tech of project.stack; track tech) {
+                                    <li>{{ tech }}</li>
+                                }
+                            </ul>
+                        </article>
+                    }
+                } @empty {
+                <p>No projects found.</p>
+                }
+            </div>
+        </div>
+        <div class="indicator" id="indicator" #indicator aria-hidden="true" (pointerdown)="onTrackDown($event)">
+            <div class="thumb" id="thumb" #thumb
+            (pointerdown)="onThumbDown($event)"
+            (pointermove)="onThumbMove($event)"
+            (pointerup)="onThumbUp()"></div>
+        </div>
+    </div>
+
+} @else {
+  <p>Loading projects...</p>
+}
+
+</section>

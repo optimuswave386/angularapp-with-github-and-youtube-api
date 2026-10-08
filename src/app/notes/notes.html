@@ -1,0 +1,30 @@
+<section class="notes" aria-label="Notes">
+  <h1>Recent Notes</h1>
+
+  @if (notes$ | async; as notes) {
+    <ul class="note-list">
+      @for (note of notes; track note._id) {
+        <li class="note-card">
+          <time class="note-date" [attr.datetime]="note.datenoted">
+            {{ note.datenoted | date: 'mediumDate' }}
+          </time>
+
+          <p class="note-text">{{ note.note }}</p>
+
+          @if (note.links?.hrefs?.length) {
+            <div class="note-links">
+              @for (link of note.links?.hrefs ?? []; track link[0]) {
+                <a class="link-chip" [href]="link[0]" target="_blank" rel="noopener noreferrer">
+                  <span class="link-category">{{ link[2] }}</span>
+                  <span class="link-label">{{ link[1] }}</span>
+                </a>
+              }
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="notes-loading">Loading notes...</p>
+  }
+</section>
