@@ -22,6 +22,7 @@
 
     --sidebar-w: 240px;
     --header-h: 64px;
+    --footer-h: 264px;
     --pad: clamp(1.25rem, 5vw, 4rem);
 
     --font: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
@@ -71,7 +72,7 @@ header button:focus-visible,
     flex-direction: column;
     min-height: 100vh;
 }
-
+ 
 /* ---------- Sidebar ---------- */
 
 #asidenav {
@@ -581,6 +582,7 @@ main {
     background: var(--blue);
     cursor: grab;
     touch-action: none;
+    visibility: hidden;   /* shown once layoutIndicator has sized it */
 }
 
 .thumb:active { cursor: grabbing; }
@@ -654,8 +656,7 @@ main {
     background-color: #fff;
     padding: clamp(3rem, 8vw, 6rem) var(--pad) 1.5rem;
     max-width: 100%;
-    /* 
-    max-width: 1200px; */
+    /* max-width: 1200px; */
     margin: 0;
 }
 

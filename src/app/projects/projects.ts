@@ -26,8 +26,27 @@ export class Projects implements AfterViewInit, OnDestroy {
   }
 
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private scrollerEl?: ElementRef<HTMLElement>;
 
-  @ViewChild('scroller') scroller?: ElementRef<HTMLElement>;
+  @ViewChild('scroller')
+  set scroller(ref: ElementRef<HTMLElement> | undefined) {
+    this.resizeObserver?.disconnect();
+    this.scrollerEl = ref;
+    if (!ref || !this.isBrowser) return;
+
+    // wait one frame so indicator/thumb queries are resolved and layout is done
+    requestAnimationFrame(() => {
+      this.layoutIndicator();
+      if ('ResizeObserver' in window) {
+        this.resizeObserver = new ResizeObserver(() => this.layoutIndicator());
+        this.resizeObserver.observe(ref.nativeElement);
+        const content = ref.nativeElement.firstElementChild; // .bento
+        if (content) this.resizeObserver.observe(content);
+      }
+    });
+  }
+  get scroller() { return this.scrollerEl; }
+
   @ViewChild('indicator') indicator?: ElementRef<HTMLElement>;
   @ViewChild('thumb') thumb?: ElementRef<HTMLElement>;
 
@@ -55,6 +74,7 @@ export class Projects implements AfterViewInit, OnDestroy {
     const y = (sc.scrollTop / (sh - ch)) * (trackH - h);
     thumb.style.height = `${h}px`;
     thumb.style.transform = `translateY(${y}px)`;
+    thumb.style.visibility = 'visible';
   }
 
   onThumbDown(e: PointerEvent): void {
@@ -97,10 +117,6 @@ export class Projects implements AfterViewInit, OnDestroy {
     // Initialization logic for after view is initialized
     if (!this.isBrowser) return;
     this.layoutIndicator();
-    if (this.scroller && 'ResizeObserver' in window) {
-      this.resizeObserver = new ResizeObserver(() => this.layoutIndicator());
-      this.resizeObserver.observe(this.scroller.nativeElement);
-    }
   }
 
   ngOnDestroy() {
