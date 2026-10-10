@@ -5,6 +5,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { Projects } from '../projects/projects';
 import { Notes } from '../notes/notes';
+import { Contact } from '../contact/contact';
 
 @Component({
   selector: 'app-home',

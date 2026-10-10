@@ -2,7 +2,7 @@ import {
   AfterViewInit, Component, signal, ElementRef,
   HostListener, OnDestroy, PLATFORM_ID, ViewChild, inject,
 } from '@angular/core';
-import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -12,7 +12,7 @@ import { Footer } from './footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, GithubActivity, YoutubeVideos, Footer],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, GithubActivity, YoutubeVideos, Footer],
   standalone: true,
   templateUrl: './app.html',
   styleUrl: './app.css'

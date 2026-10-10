@@ -11,6 +11,7 @@
     --blue: #2438e8;
     --hero: #2438e8; /* overridden on each page load by scripts.js */
     --paper: #eef1f5;
+    --paperlight: #f4f4f4;
     --ink: #141b2d;
     --muted: #55607a;
     --mint: #8af2bd;
@@ -189,6 +190,7 @@ header {
     justify-content: center;
     width: 40px;
     height: 40px;
+    border: 1px solid var(--rule);
     border-radius: 6px;
 }
 
@@ -265,6 +267,66 @@ input[type="text"]:focus { outline: 2px solid var(--blue); outline-offset: 1px; 
 }
 
 #navcontrollerlink:hover { border-color: var(--blue); }
+
+/* Icon nav: separate from the main nav / search bar */
+.icon-nav {
+    margin-right: auto;
+    margin-left: 0 !important;
+}
+
+.icon-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.icon-nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.6rem;
+  border-radius: 0.5rem;
+  color: inherit;            /* follows your nav text colour */
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.icon-nav__link:hover,
+.icon-nav__link:focus-visible {
+  background: rgba(127, 127, 127, 0.18);
+}
+
+.icon-nav__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Active page (works with routerLinkActive="active") */
+.icon-nav__link.active {
+  background: rgba(127, 127, 127, 0.28);
+}
+
+.icon-nav__icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+}
+
+/* Icons only by default; labels show on wide screens */
+.icon-nav__label {
+  display: none;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 1000px) {
+  .icon-nav__label { display: inline; }
+}
 
 /* ---------- Right slide panel ---------- */
 
@@ -591,7 +653,9 @@ main {
 .footer {
     background-color: #fff;
     padding: clamp(3rem, 8vw, 6rem) var(--pad) 1.5rem;
-    max-width: 1200px;
+    max-width: 100%;
+    /* 
+    max-width: 1200px; */
     margin: 0;
 }
 
@@ -605,11 +669,14 @@ main {
 
 .footer a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
 .footer a:hover { color: var(--ink); }
-
-.footer .legal {
+.footer hr.divider {    
+    border-top: 1px solid var(--rule);  
+    width: 100%;
     margin-top: 3rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--rule);
+}
+
+.footer .legal {
     font-size: 0.82rem;
     font-weight: 400;
     letter-spacing: 0;
@@ -692,6 +759,7 @@ button.round {
   --accent-soft: var(--paper);
   --shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 4px 12px rgba(16, 24, 40, 0.04);
   
+  background-color: var(--bg);
   margin: 0 auto;
   padding: 1.5rem var(--pad) 4.5rem;
   color: var(--text);
@@ -841,6 +909,260 @@ button.round {
 }
 
 
+
+/* ---------- Contact page ----------
+   Everything is scoped under .contact-page so it cannot leak into other pages.
+   Uses the site tokens (--blue, --ink, --muted, --rule, --paper, --font) and
+   a few --cp-* values of its own. */
+
+.contact-page {
+    background-color: #ffffff;
+    --cp-error: #b42318;   /* darker than --danger so small error text keeps contrast */
+    --cp-ok: #1a7f4b;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    padding: clamp(1.5rem, 5vw, 3.5rem) var(--pad) 4.5rem;
+    color: var(--ink);
+}
+
+/* Intro */
+.contact-page .intro-availability {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: #fff;
+    font-size: 0.9rem;
+}
+
+.contact-page .intro-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--cp-ok);
+}
+
+.contact-page .intro-title {
+    max-width: 16ch;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+}
+
+.contact-page .intro-lede {
+    max-width: 52ch;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: var(--muted);
+}
+
+/* Layout */
+.contact-page .cp-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    margin-top: clamp(1.75rem, 4vw, 3rem);
+    align-items: start;
+}
+
+@media (max-width: 880px) {
+    .contact-page .cp-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Form card and confirmation */
+.contact-page .cp-form,
+.contact-page .cp-done {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.contact-page .cp-form h2,
+.contact-page .cp-done h2 {
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.contact-page .cp-field { margin-bottom: 1.1rem; }
+
+.contact-page .cp-field label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* Beats the global input[type="text"] rule (40px tall, pill radius, 40px side padding) */
+.contact-page .cp-field input,
+.contact-page .cp-field input[type="text"],
+.contact-page .cp-field select,
+.contact-page .cp-field textarea {
+    width: 100%;
+    height: auto;
+    padding: 0.7rem 0.85rem;
+    border: 1.5px solid transparent;
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-size: 1rem;
+}
+
+.contact-page .cp-field textarea {
+    min-height: 9rem;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.contact-page .cp-field [aria-invalid='true'] {
+    border-color: var(--cp-error);
+    background: #fff;
+}
+
+.contact-page .cp-err {
+    margin-top: 0.4rem;
+    color: var(--cp-error);
+    font-size: 0.9rem;
+}
+
+.contact-page .cp-field-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.contact-page .cp-count {
+    margin: 0.4rem 0 0 auto;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.contact-page .cp-form-error {
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    border-left: 4px solid var(--cp-error);
+    background: #fdf1f0;
+    color: var(--cp-error);
+    font-size: 0.95rem;
+}
+
+.contact-page .cp-form-error a { color: inherit; font-weight: 600; text-decoration: underline; }
+
+.contact-page .cp-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+}
+
+.contact-page .cp-privacy { font-size: 0.9rem; color: var(--muted); }
+
+/* Honeypot: out of sight, still in the DOM */
+.contact-page .cp-hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Buttons */
+.contact-page .cp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.3rem;
+    border: 1.5px solid var(--blue);
+    border-radius: 8px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.contact-page .cp-btn-primary { background: var(--blue); color: #fff; }
+.contact-page .cp-btn-primary:hover:not(:disabled) { filter: brightness(1.12); }
+.contact-page .cp-btn-primary:disabled { opacity: 0.65; cursor: progress; }
+.contact-page .cp-btn-outline { background: transparent; color: var(--blue); }
+.contact-page .cp-btn-outline:hover { background: rgba(36, 56, 232, 0.08); }
+.contact-page .cp-btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+/* Keyboard focus: the global mint ring is too faint on white, so use the site blue */
+.contact-page :is(a, button, input, select, textarea, summary):focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* Confirmation */
+.contact-page .cp-done:focus { outline: none; }
+.contact-page .cp-done:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.contact-page .cp-done p { margin-bottom: 1.25rem; line-height: 1.55; }
+
+/* Side column */
+.contact-page .cp-side-block {
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--rule);
+}
+
+.contact-page .cp-side-block:first-child { padding-top: 0; border-top: 0; }
+
+.contact-page .cp-side h2 { margin-bottom: 0.6rem; font-size: 1rem; font-weight: 700; }
+.contact-page .cp-side h3 { margin: 0.9rem 0 0.3rem; font-size: 0.95rem; font-weight: 600; color: var(--muted); }
+
+.contact-page .cp-fit ul { list-style: disc; padding-left: 1.1rem; line-height: 1.5; }
+.contact-page .cp-fit li + li { margin-top: 0.25rem; }
+
+.contact-page .cp-email-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; }
+.contact-page .cp-email-link { color: var(--blue); font-weight: 600; word-break: break-all; }
+.contact-page .cp-email-link:hover { text-decoration: underline; }
+
+.contact-page .cp-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.contact-page .cp-copy:hover { background: var(--paper); }
+
+.contact-page .cp-links { list-style: none; }
+
+.contact-page .cp-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.45rem 0;
+    font-weight: 500;
+}
+
+.contact-page .cp-links a:hover { color: var(--blue); text-decoration: underline; }
+
+.contact-page .cp-facts div { display: flex; gap: 1rem; padding: 0.2rem 0; }
+.contact-page .cp-facts dt { width: 4.5rem; flex: none; color: var(--muted); }
+
+/* FAQ */
+.contact-page .cp-faq { max-width: 720px; margin-top: clamp(2.5rem, 6vw, 4.5rem); }
+.contact-page .cp-faq h2 { margin-bottom: 0.75rem; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
+.contact-page .cp-faq details { border-top: 1px solid var(--rule); }
+.contact-page .cp-faq details:last-of-type { border-bottom: 1px solid var(--rule); }
+.contact-page .cp-faq summary { padding: 1rem 0; font-weight: 600; cursor: pointer; }
+.contact-page .cp-faq details p { margin-bottom: 1rem; max-width: 60ch; line-height: 1.55; color: var(--muted); }
 
 /* ---------- Responsive ---------- */
 
