@@ -696,6 +696,7 @@ main {
 .dropdown { position: relative; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--panel-line); }
 
 .dropdown-header { display: flex; align-items: center; gap: 10px; padding: 8px 10px 10px; }
+.dropdown-header-linkedin { text-decoration: none; outline: none; }
 .dropdown-header-name { font-weight: 600; font-size: 13px; color: #eceef2; }
 .dropdown-header-email { font-size: 12px; color: #9498a6; }
 
