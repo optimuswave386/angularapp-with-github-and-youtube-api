@@ -13,6 +13,7 @@ export interface Project {
   href: string;
   status: string;
   year: string;
+  image: string;
 }
 
 @Injectable({ providedIn: 'root' })

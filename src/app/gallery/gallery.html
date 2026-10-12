@@ -1,0 +1,28 @@
+<section class="gallery">
+
+    @if (gallery$ | async; as images) {
+
+        <h1 class="galleryh1">
+            @if (images.length > 0) {
+                <span>Gallery<!-- ({{ images.length }} projects) --></span>
+            } @else {
+                <span>No projects yet.</span>
+            }
+        </h1>
+
+        <div class="gallerygrid">
+
+        @for (project of images; track project._id; let i = $index, first = $first, last = $last) {
+            <figure class="galleryitem">
+                <div class="galleryph">
+                    <img src="./assets/images/projects/{{ project.image }}" alt="{{ project.description }}" />
+                </div>
+                <figcaption>{{ project.title }}</figcaption>
+            </figure>
+        }
+
+        </div>
+
+    }
+
+</section>

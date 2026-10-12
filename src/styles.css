@@ -682,6 +682,43 @@ main {
     font-weight: 400;
     letter-spacing: 0;
     color: var(--muted);
+    display: flex;
+    justify-content: space-between; /* text left, icons right */
+    align-items: center;            /* vertically center them */
+    gap: 1rem;
+    flex-wrap: wrap;                /* stacks on narrow screens */
+}
+
+.footer .social {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer .social a {
+    display: inline-flex;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.footer .social a:hover,
+.footer .social a:focus-visible {
+    opacity: 1;
+}
+
+.footer .social svg,
+.footer .social img {
+    width: 20px;
+    height: 20px;
+    fill: currentColor; /* SVGs pick up the text color */
+}
+
+@media (max-width: 480px) {
+    .legal {
+        flex-direction: column;
+        text-align: center;
+    }
 }
 
 /* ---------- Search page ---------- */
@@ -1214,3 +1251,75 @@ button.round {
     #asidenav, header, main { transition: none; }
     .carousel-track { transition: none; }
 }
+
+/* ---------- Gallery ---------- */
+
+.gallery {
+    padding: 0 var(--pad);
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.galleryh1, .galleryh2 {
+    margin: 0 0 20px;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.gallerygrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.galleryitem {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Placeholder box: swap this div for an <img> later */
+.galleryph {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dotted burlywood;
+    background-color: #ffffff;
+    color: #8a8a8c;
+    font-size: 0.9rem;
+}
+
+/* When you add real photos, this styles them to match */
+.galleryitem img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.galleryitem figcaption {
+    padding-top: 6px;
+    font-size: 0.85rem;
+    color: #55555a;
+}
+
+/* Featured first item: only when at least 3 columns fit, so the
+   2x2 tile always has neighbours to sit beside. */
+@media (min-width: 840px) {
+    .gallerygrid {
+        grid-auto-flow: dense;
+    }
+    .galleryitem:first-child {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+    .galleryitem:first-child .galleryph {
+        flex: 1;               /* fill the full height of the 2 rows */
+        aspect-ratio: auto;
+        min-height: 200px;
+    }
+}
+

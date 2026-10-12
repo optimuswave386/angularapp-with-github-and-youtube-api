@@ -6,6 +6,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } fro
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ViewportScroller } from '@angular/common';
 import { GithubActivity } from './github-activity';
 import { YoutubeVideos } from './youtube-videos';
 import { Footer } from './footer/footer';
@@ -25,6 +26,7 @@ export class App implements AfterViewInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly MOBILE_BREAKPOINT = 768;
+  private readonly viewportScroller = inject(ViewportScroller);
 
   @ViewChild('navLink') navLink?: ElementRef<HTMLElement>;
   @ViewChild('panel') panel?: ElementRef<HTMLElement>;
@@ -68,6 +70,7 @@ export class App implements AfterViewInit, OnDestroy {
 
   togglePanel(e: Event): void {
     e.preventDefault();
+    this.viewportScroller.scrollToPosition([0, 0]);
     this.panelOpen = !this.panelOpen;
     this.body.classList.toggle('panel-open', this.panelOpen);
     this.closeSidebar();
