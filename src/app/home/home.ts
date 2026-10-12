@@ -47,6 +47,7 @@ export class Home implements AfterViewInit, OnDestroy {
     track.style.transform = `translateX(${-100 * this.current}%)`;
     Array.from(track.children).forEach((slide, j) =>
       slide.setAttribute('aria-hidden', String(j !== this.current)));
+    this.cdr.markForCheck();
   }
 
   stop(): void {
